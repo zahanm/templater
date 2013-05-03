@@ -37,11 +37,12 @@ global.Templater = {
       return console.error('Surely you want an outlet for render(..)');
     }
     if (cache[location]) {
-      return callback(cache[location]);
+      return callback(Mustache.render(cache[location], context));
     }
     fetch(location, function(template) {
+      cache[location] = template;
       var rendered = Mustache.render(template, context);
-      return callback(cache[location] = rendered);
+      return callback(rendered);
     })
   }
 
